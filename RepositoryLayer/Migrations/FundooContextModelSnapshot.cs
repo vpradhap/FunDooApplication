@@ -39,7 +39,7 @@ namespace RepositoryLayer.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserTable");
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }
