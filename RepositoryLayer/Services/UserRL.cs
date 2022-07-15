@@ -83,8 +83,7 @@ namespace RepositoryLayer.Services
                         new Claim("userId", userId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(
-                tokenKey, SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(tokenKey, SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 

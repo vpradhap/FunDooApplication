@@ -38,7 +38,7 @@ namespace FunDooApplication.Controllers
             }
             else
             {
-                return this.Unauthorized(new { success = false, message = "Invalid Login details"});
+                return this.NotFound(new { success = false, message = "Invalid Login details"});
             }
         }
     }

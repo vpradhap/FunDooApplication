@@ -86,11 +86,11 @@ namespace FunDooApplication
                 options.RequireHttpsMetadata=false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    //ValidateIssuer = true,
                     // ValidateAudience = true,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:ValidIssuer"],
+                   // ValidIssuer = Configuration["Jwt:ValidIssuer"],
                     //ValidAudience = Configuration["Jwt:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])) //Configuration["JwtToken:SecretKey"]  
                 };
