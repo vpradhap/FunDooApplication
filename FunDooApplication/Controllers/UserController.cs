@@ -28,5 +28,18 @@ namespace FunDooApplication.Controllers
                 return this.BadRequest(new { success = false, message = "Registertion Failed"});
             }
         }
+        [HttpPost("Login")]
+        public IActionResult Login(UserLoginModel userLoginModel)
+        {
+            var result = userBL.Login(userLoginModel);
+            if(result != null)
+            {
+                return this.Ok(new { success = true, message = "Login Success", data = result });
+            }
+            else
+            {
+                return this.Unauthorized(new { success = false, message = "Invalid Login details"});
+            }
+        }
     }
 }
