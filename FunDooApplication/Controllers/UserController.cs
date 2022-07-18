@@ -41,5 +41,18 @@ namespace FunDooApplication.Controllers
                 return this.NotFound(new { success = false, message = "Invalid Login details"});
             }
         }
+        [HttpPost("Forget")]
+        public IActionResult ForgetPassword(string EmailID)
+        {
+            var result = userBL.ForgetPassword(EmailID);
+            if (result != null)
+            {
+                return this.Ok(new { success = true, message = "Token sent to your mail successfully" });
+            }
+            else
+            {
+                return this.NotFound(new { success = false, message = "EmailId not registered,try again" });
+            }
+        }
     }
 }

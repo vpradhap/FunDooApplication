@@ -62,7 +62,7 @@ namespace RepositoryLayer.Services
                 else
                     return null;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
@@ -88,6 +88,19 @@ namespace RepositoryLayer.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+        public string ForgetPassword(string EmailID)
+        {
+            var emailCheck = fundooContext.User.FirstOrDefault(x => x.Email == EmailID);
+            if (emailCheck != null)
+            {
+                var token = JwtMethod(emailCheck.Email, emailCheck.UserId);
+                MSMQ_Model msmq_Model = new MSMQ_Model();
+                msmq_Model.sendData2Queue(token);
+                return token;
+            }
+            else
+                return null;
         }
     }
 }
