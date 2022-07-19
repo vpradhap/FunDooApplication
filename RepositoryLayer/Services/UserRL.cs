@@ -82,16 +82,16 @@ namespace RepositoryLayer.Services
                         new Claim(ClaimTypes.Email, email),
                         new Claim("userId", userId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(tokenKey, SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
         }
-        public string ForgetPassword(string EmailID)
+        public string ForgetPassword(UserForgetModel userForgetModel)
         {
-            var emailCheck = fundooContext.User.FirstOrDefault(x => x.Email == EmailID);
+            var emailCheck = fundooContext.User.FirstOrDefault(x => x.Email == userForgetModel.Email);
             if (emailCheck != null)
             {
                 var token = JwtMethod(emailCheck.Email, emailCheck.UserId);
@@ -101,6 +101,29 @@ namespace RepositoryLayer.Services
             }
             else
                 return null;
+        }
+        public string ResetPassword(UserResetModel userResetModel)
+        {
+            try
+            {
+                if (userResetModel.Password.Equals(userResetModel.ConfirmPassword))
+                {
+                    // var emailCheck = fundooContext.User.Where(x => x.Email == email);
+                    UserEntity user = fundooContext.User.Where(x => x.Email == userResetModel.Email).FirstOrDefault();;
+                    user.Password = userResetModel.ConfirmPassword;
+                    //fundooContext.User.Update(user);
+                    fundooContext.SaveChanges();
+                    return "Reset success";
+                }
+                else
+                {
+                    return "Reset failed";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

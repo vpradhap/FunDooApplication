@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FunDooApplication.Controllers
 {
@@ -42,9 +44,9 @@ namespace FunDooApplication.Controllers
             }
         }
         [HttpPost("Forget")]
-        public IActionResult ForgetPassword(string EmailID)
+        public IActionResult ForgetPassword(UserForgetModel userForgetModel)
         {
-            var result = userBL.ForgetPassword(EmailID);
+            var result = userBL.ForgetPassword(userForgetModel);
             if (result != null)
             {
                 return this.Ok(new { success = true, message = "Token sent to your mail successfully" });
@@ -52,6 +54,21 @@ namespace FunDooApplication.Controllers
             else
             {
                 return this.NotFound(new { success = false, message = "EmailId not registered,try again" });
+            }
+        }
+        [Authorize]
+        [HttpPost("Reset")]
+        public IActionResult ResetPassword(UserResetModel userResetModel)
+        {
+            userResetModel.Email = User.FindFirst(ClaimTypes.Email).Value;
+            var result = userBL.ResetPassword(userResetModel);
+            if (result != null)
+            {
+                return this.Ok(new { success = true, message = "Reset success" });
+            }
+            else
+            {
+                return this.NotFound(new { success = false, message = "Reset failed" });
             }
         }
     }
