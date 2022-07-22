@@ -84,11 +84,11 @@ namespace FunDooApplication.Controllers
         }
 
         [HttpDelete("Remove")]
-        public IActionResult Delete(long noteid)
+        public IActionResult Delete(NotesIdModel notesIdModel)
         {
             try
             {
-                if (noteBL.Delete(noteid))
+                if (noteBL.Delete(notesIdModel.NoteID))
                 {
                     return this.Ok(new { Success = true, message = "Note Deleted Successfully" });
                 }
@@ -125,11 +125,11 @@ namespace FunDooApplication.Controllers
         }
 
         [HttpPut("Pin")]
-        public IActionResult Pin(long noteid)
+        public IActionResult Pin(NotesIdModel notesIdModel)
         {
             try
             {
-                var result = noteBL.Pin(noteid);
+                var result = noteBL.Pin(notesIdModel.NoteID);
                 if (result != null)
                 {
                     return this.Ok(new { message = "Note unPinned ", Response = result });
@@ -146,11 +146,11 @@ namespace FunDooApplication.Controllers
         }
 
         [HttpPut("Trash")]
-        public IActionResult Trash(long noteid)
+        public IActionResult Trash(NotesIdModel notesIdModel)
         {
             try
             {
-                var result = noteBL.Trash(noteid);
+                var result = noteBL.Trash(notesIdModel.NoteID);
                 if (result != null)
                 {
                     return this.Ok(new { message = "Note Restored ", Response = result });

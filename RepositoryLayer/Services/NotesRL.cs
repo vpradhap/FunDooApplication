@@ -42,7 +42,7 @@ namespace RepositoryLayer.Services
                 notes.Modifiedat = notesCreateModel.Modifiedat;
                 notes.UserId = userid;
 
-                fundooContext.Notes.Add(notes);
+                fundooContext.NotesTable.Add(notes);
                 int result=fundooContext.SaveChanges();
                 if (result > 0)
                 {
@@ -62,18 +62,18 @@ namespace RepositoryLayer.Services
 
         public IEnumerable<NotesEntity> GetAllNotes()
         {
-            return fundooContext.Notes.ToList();
+            return fundooContext.NotesTable.ToList();
         }
         public IEnumerable<NotesEntity> GetNotesbyNoteid(long noteId)
         {
-            return fundooContext.Notes.Where(x => x.NoteID == noteId).ToList();
+            return fundooContext.NotesTable.Where(x => x.NoteID == noteId).ToList();
         }
 
         public NotesEntity Update(NotesCreateModel notesCreateModel, long noteId)
         {
             try
             {
-                NotesEntity result = fundooContext.Notes.Where(e => e.NoteID == noteId).FirstOrDefault();
+                NotesEntity result = fundooContext.NotesTable.Where(e => e.NoteID == noteId).FirstOrDefault();
                 if (result != null)
                 {
                     result.Title = notesCreateModel.Title;
@@ -85,7 +85,7 @@ namespace RepositoryLayer.Services
                     result.Trash = notesCreateModel.Trash;
                     result.Createdat = notesCreateModel.Createdat;
                     result.Modifiedat = DateTime.Now;
-                    fundooContext.Notes.Update(result);
+                    fundooContext.NotesTable.Update(result);
                     fundooContext.SaveChanges();
                     return result;
                 }
@@ -101,7 +101,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var result = fundooContext.Notes.FirstOrDefault(x => x.NoteID == noteId);
+                var result = fundooContext.NotesTable.FirstOrDefault(x => x.NoteID == noteId);
                 fundooContext.Remove(result);
                 int delete = fundooContext.SaveChanges();
                 if (delete > 0)
@@ -120,7 +120,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                NotesEntity result = fundooContext.Notes.FirstOrDefault(x => x.NoteID == notesIdModel.NoteID);
+                NotesEntity result = fundooContext.NotesTable.FirstOrDefault(x => x.NoteID == notesIdModel.NoteID);
                 if (result.Archive == true)
                 {
                     result.Archive = false;
@@ -144,7 +144,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                NotesEntity result = fundooContext.Notes.FirstOrDefault(x => x.NoteID == noteId);
+                NotesEntity result = fundooContext.NotesTable.FirstOrDefault(x => x.NoteID == noteId);
                 if (result.Pin == true)
                 {
                     result.Pin = false;
@@ -168,7 +168,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                NotesEntity result = fundooContext.Notes.FirstOrDefault(x => x.NoteID == noteId);
+                NotesEntity result = fundooContext.NotesTable.FirstOrDefault(x => x.NoteID == noteId);
                 if (result.Trash == true)
                 {
                     result.Trash = false;
@@ -192,7 +192,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var noteId = fundooContext.Notes.FirstOrDefault(e => e.NoteID == noteid);
+                var noteId = fundooContext.NotesTable.FirstOrDefault(e => e.NoteID == noteid);
                 if (noteId != null)
                 {
                     CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(CLOUD_NAME, API_KEY, API_SECRET);
@@ -204,7 +204,7 @@ namespace RepositoryLayer.Services
                     };
                     var uploadresult = cloud.Upload(uploadParams);
                     noteId.Image = image.FileName;
-                    fundooContext.Notes.Update(noteId);
+                    fundooContext.NotesTable.Update(noteId);
                     int data = fundooContext.SaveChanges();
                     if (data > 0)
                     {

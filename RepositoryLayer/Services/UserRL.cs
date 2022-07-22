@@ -32,7 +32,7 @@ namespace RepositoryLayer.Services
                 userEntity.Email = userRegistrationModel.Email;
                 userEntity.Password = userRegistrationModel.Password;
 
-                fundooContext.User.Add(userEntity);
+                fundooContext.UserTable.Add(userEntity);
                 int result=fundooContext.SaveChanges();
                 if (result > 0)
                 {
@@ -53,7 +53,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var login = fundooContext.User.FirstOrDefault(x => x.Email == userLoginModel.Email && x.Password == userLoginModel.Password);
+                var login = fundooContext.UserTable.FirstOrDefault(x => x.Email == userLoginModel.Email && x.Password == userLoginModel.Password);
                 if (login != null)
                 {
                     var token = JwtMethod(login.Email, login.UserId);
@@ -91,7 +91,7 @@ namespace RepositoryLayer.Services
         }
         public string ForgetPassword(UserForgetModel userForgetModel)
         {
-            var emailCheck = fundooContext.User.FirstOrDefault(x => x.Email == userForgetModel.Email);
+            var emailCheck = fundooContext.UserTable.FirstOrDefault(x => x.Email == userForgetModel.Email);
             if (emailCheck != null)
             {
                 var token = JwtMethod(emailCheck.Email, emailCheck.UserId);
@@ -109,7 +109,7 @@ namespace RepositoryLayer.Services
                 if (userResetModel.Password.Equals(userResetModel.ConfirmPassword))
                 {
                     // var emailCheck = fundooContext.User.Where(x => x.Email == email);
-                    UserEntity user = fundooContext.User.Where(x => x.Email == userResetModel.Email).FirstOrDefault();;
+                    UserEntity user = fundooContext.UserTable.Where(x => x.Email == userResetModel.Email).FirstOrDefault();;
                     user.Password = userResetModel.ConfirmPassword;
                     //fundooContext.User.Update(user);
                     fundooContext.SaveChanges();
