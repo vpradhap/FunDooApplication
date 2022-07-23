@@ -1,14 +1,14 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace FunDooApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("")]
     [ApiController]
+
     public class UserController : ControllerBase
     {
         private readonly IUserBL userBL;

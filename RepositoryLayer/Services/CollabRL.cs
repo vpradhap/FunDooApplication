@@ -57,9 +57,15 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        public IEnumerable<CollabEntity> GetAllCollab()
+        {
+            return fundooContext.CollabTable.ToList();
+        }
+
         public IEnumerable<CollabEntity> GetAllByNoteID(long noteId)
         {
-            return fundooContext.CollabTable.Where(n => n.NoteId == noteId).ToList();
+            return fundooContext.CollabTable.Where(x => x.NoteId == noteId).ToList();
         }
     }
 }

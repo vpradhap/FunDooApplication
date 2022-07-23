@@ -46,6 +46,16 @@ namespace FunDooApplication
             services.AddTransient<ICollabBL, CollabBL>();
             services.AddTransient<ICollabRL, CollabRL>();
 
+            services.AddTransient<ILabelBL, LabelBL>();
+            services.AddTransient<ILabelRL, LabelRL>();
+
+            services.AddMemoryCache();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FunDooApplication" });
@@ -63,13 +73,10 @@ namespace FunDooApplication
                     Scheme = "bearer",
 
                     Reference = new OpenApiReference
-
                     {
                         Type = ReferenceType.SecurityScheme,
-
                         Id = "Bearer"
                     }
-
                 };
 
                 c.AddSecurityDefinition("Bearer", securitySchema);
@@ -78,7 +85,6 @@ namespace FunDooApplication
 
                 {
                     { securitySchema, new[] { "Bearer" } }
-
                 });
             });
 
@@ -116,9 +122,9 @@ namespace FunDooApplication
                 app.UseDeveloperExceptionPage();
                 // Swagger Configuration in API  
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
+                app.UseSwaggerUI(options =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FunDooApplication");
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "FunDooApplication");
 
                 });
             }

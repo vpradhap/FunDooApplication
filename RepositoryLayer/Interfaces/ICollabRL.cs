@@ -9,6 +9,7 @@ namespace RepositoryLayer.Interfaces
     {
         public CollabEntity Create(long noteId, long userId, string email);
         public bool Delete(long collabId);
+        public IEnumerable<CollabEntity> GetAllCollab();
         public IEnumerable<CollabEntity> GetAllByNoteID(long noteId);
     }
 }
