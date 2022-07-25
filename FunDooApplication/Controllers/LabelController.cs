@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace FunDooApplication.Controllers
 {
     [Authorize]
-    [Route(".")]
+    [Route("[Controller]")]
     [ApiController]
     public class LabelController : ControllerBase
     {

@@ -30,7 +30,7 @@ namespace RepositoryLayer.Services
                 userEntity.FirstName = userRegistrationModel.FirstName;
                 userEntity.LastName = userRegistrationModel.LastName;
                 userEntity.Email = userRegistrationModel.Email;
-                userEntity.Password = userRegistrationModel.Password;
+                userEntity.Password = EncryptPasswordBase64(userRegistrationModel.Password);
 
                 fundooContext.UserTable.Add(userEntity);
                 int result=fundooContext.SaveChanges();
@@ -53,8 +53,8 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var login = fundooContext.UserTable.FirstOrDefault(x => x.Email == userLoginModel.Email && x.Password == userLoginModel.Password);
-                if (login != null)
+                var login = fundooContext.UserTable.FirstOrDefault(x => x.Email == userLoginModel.Email);
+                if (login != null && DecryptPasswordBase64(login.Password) == userLoginModel.Password)
                 {
                     var token = JwtMethod(login.Email, login.UserId);
                     return token;
@@ -109,7 +109,7 @@ namespace RepositoryLayer.Services
                 if (userResetModel.Password.Equals(userResetModel.ConfirmPassword))
                 {
                     // var emailCheck = fundooContext.User.Where(x => x.Email == email);
-                    UserEntity user = fundooContext.UserTable.Where(x => x.Email == userResetModel.Email).FirstOrDefault();;
+                    UserEntity user = fundooContext.UserTable.Where(x => x.Email == userResetModel.Email).FirstOrDefault();
                     user.Password = userResetModel.ConfirmPassword;
                     //fundooContext.User.Update(user);
                     fundooContext.SaveChanges();
@@ -124,6 +124,18 @@ namespace RepositoryLayer.Services
             {
                 throw;
             }
+        }
+
+        public static string EncryptPasswordBase64(string password)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(password);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string DecryptPasswordBase64(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }
