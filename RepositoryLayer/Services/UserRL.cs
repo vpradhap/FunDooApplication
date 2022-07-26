@@ -110,8 +110,9 @@ namespace RepositoryLayer.Services
                 {
                     // var emailCheck = fundooContext.User.Where(x => x.Email == email);
                     UserEntity user = fundooContext.UserTable.Where(x => x.Email == userResetModel.Email).FirstOrDefault();
-                    user.Password = userResetModel.ConfirmPassword;
-                    //fundooContext.User.Update(user);
+                    //var pass = DecryptPasswordBase64(user.Password);
+                    //pass = EncryptPasswordBase64(userResetModel.ConfirmPassword);
+                    user.Password = EncryptPasswordBase64(userResetModel.ConfirmPassword);
                     fundooContext.SaveChanges();
                     return "Reset success";
                 }

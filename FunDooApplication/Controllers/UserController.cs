@@ -2,6 +2,8 @@
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Security.Claims;
 
 namespace FunDooApplication.Controllers
@@ -33,14 +35,21 @@ namespace FunDooApplication.Controllers
         [HttpPost("Login")]
         public IActionResult Login(UserLoginModel userLoginModel)
         {
-            var result = userBL.Login(userLoginModel);
-            if(result != null)
+            try
             {
-                return this.Ok(new { success = true, message = "Login Success", data = result });
+                var result = userBL.Login(userLoginModel);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Login Success", data = result });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Invalid Login details" });
+                }
             }
-            else
+            catch (Exception)
             {
-                return this.NotFound(new { success = false, message = "Invalid Login details"});
+                throw;
             }
         }
         [HttpPost("Forget")]
