@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RepositoryLayer.Entities;
 using System;
@@ -24,11 +25,14 @@ namespace FunDooApplication.Controllers
         private readonly INotesBL noteBL;
         private readonly IMemoryCache memoryCache;
         private readonly IDistributedCache distributedCache;
-        public NotesController(INotesBL noteBL,IMemoryCache memoryCache, IDistributedCache distributedCache)
+        private readonly ILogger<NotesController> logger;
+
+        public NotesController(INotesBL noteBL,IMemoryCache memoryCache, IDistributedCache distributedCache, ILogger<NotesController> logger)
         {
             this.noteBL = noteBL;
             this.memoryCache = memoryCache;
             this.distributedCache = distributedCache;
+            this.logger = logger;
         }
 
         [HttpPost("Create")]
@@ -49,14 +53,19 @@ namespace FunDooApplication.Controllers
         [HttpGet("AllNotes")]
         public IEnumerable<NotesEntity> GetAllNotes()
         {
-            try
-            {
-                return noteBL.GetAllNotes();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //try
+            //{
+                logger.LogInformation("Fetching all the notes from the database");
+                var result = noteBL.GetAllNotes();
+                //throw new Exception("Exception while fetching all the notes from the database");
+                logger.LogInformation("Displaying "+ result.Count()+" Notes");
+                return result;
+            //}
+            //catch (Exception e)
+            //{
+            //    logger.LogError($"Something went wrong : {e}");
+            //    return Enumerable.Empty<NotesEntity>();
+            //}
         }
         [HttpGet("NotesByNoteId")]
         public IEnumerable<NotesEntity> GetNotesbyNoteid(long noteId)
@@ -67,7 +76,6 @@ namespace FunDooApplication.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
