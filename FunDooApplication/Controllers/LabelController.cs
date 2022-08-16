@@ -50,7 +50,7 @@ namespace FunDooApplication.Controllers
                 throw;
             }
         }
-        [HttpDelete("Remove")]
+        [HttpDelete("Delete")]
         public IActionResult Delete(LabelNameModel labelNameModel)
         {
             try
@@ -119,7 +119,7 @@ namespace FunDooApplication.Controllers
             }
         }
 
-        [HttpGet("Redis")]
+        [HttpGet("LabelRedis")]
         public async Task<IActionResult> GetAllLabelUsingRedisCache()
         {
             var cacheKey = "LabelList";

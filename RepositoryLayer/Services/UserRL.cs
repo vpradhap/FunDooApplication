@@ -96,8 +96,8 @@ namespace RepositoryLayer.Services
             {
                 var token = JwtMethod(emailCheck.Email, emailCheck.UserId);
                 MSMQ_Model msmq_Model = new MSMQ_Model();
-                msmq_Model.sendData2Queue(token);
-                return token;
+                msmq_Model.sendData2Queue($"http://localhost:4200/resetpassword/{token}");
+                return $"http://localhost:4200/resetpassword/{token}";
             }
             else
                 return null;

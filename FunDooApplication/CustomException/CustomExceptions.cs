@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FunDooApplication.CustomException
 {
-    public class CustomExceptions:Exception
+    public class CustomExceptions
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ControllerBase> _logger;
