@@ -102,11 +102,11 @@ namespace FunDooApplication.Controllers
         }
 
         [HttpDelete("Remove")]
-        public IActionResult Delete(NotesIdModel notesIdModel)
+        public IActionResult Delete(long noteId)
         {
             try
             {
-                if (noteBL.Delete(notesIdModel.NoteID))
+                if (noteBL.Delete(noteId))
                 {
                     return this.Ok(new { Success = true, message = "Note Deleted Successfully" });
                 }
@@ -228,6 +228,27 @@ namespace FunDooApplication.Controllers
                 await distributedCache.SetAsync(cacheKey, redisNotesList, options);
             }
             return Ok(NotesList);
+        }
+
+        [HttpPut("Color")]
+        public IActionResult Color(long noteid, string color)
+        {
+            try
+            {
+                var result = noteBL.Color(noteid, color);
+                if (result != null)
+                {
+                    return this.Ok(new { message = "Color is changed ", Response = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { message = "Unable to change color" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

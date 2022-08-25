@@ -18,5 +18,6 @@ namespace BusinessLayer.Interfaces
         public NotesEntity Pin(long noteId);
         public NotesEntity Trash(long noteId);
         public NotesEntity Image(long noteid, IFormFile image);
+        public NotesEntity Color(long noteid, string color);
     }
 }

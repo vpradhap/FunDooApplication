@@ -37,7 +37,6 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -49,7 +48,6 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -61,7 +59,6 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -73,7 +70,6 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -85,7 +81,6 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -97,7 +92,6 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -121,7 +115,18 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
 
+        public NotesEntity Color(long noteid, string color)
+        {
+            try
+            {
+                return notesRL.Color(noteid,color);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

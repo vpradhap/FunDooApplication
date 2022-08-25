@@ -78,13 +78,13 @@ namespace RepositoryLayer.Services
                 {
                     result.Title = notesCreateModel.Title;
                     result.Description = notesCreateModel.Description;
-                    result.Image = notesCreateModel.Image;
-                    result.Color = notesCreateModel.Color;
-                    result.Archive = notesCreateModel.Archive;
-                    result.Pin = notesCreateModel.Pin;
-                    result.Trash = notesCreateModel.Trash;
-                    result.Createdat = notesCreateModel.Createdat;
-                    result.Modifiedat = DateTime.Now;
+                    //result.Image = notesCreateModel.Image;
+                    //result.Color = notesCreateModel.Color;
+                    //result.Archive = notesCreateModel.Archive;
+                    //result.Pin = notesCreateModel.Pin;
+                    //result.Trash = notesCreateModel.Trash;
+                    //result.Createdat = notesCreateModel.Createdat;
+                    //result.Modifiedat = DateTime.Now;
                     fundooContext.NotesTable.Update(result);
                     fundooContext.SaveChanges();
                     return result;
@@ -212,6 +212,25 @@ namespace RepositoryLayer.Services
                     }
                 }
                     return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public NotesEntity Color(long noteid, string color)
+        {
+            try
+            {
+                NotesEntity note = this.fundooContext.NotesTable.FirstOrDefault(x => x.NoteID == noteid);
+                if (note != null)
+                {
+                    note.Color = color;
+                    this.fundooContext.SaveChanges();
+                    return note;
+                }
+                return null;
             }
             catch (Exception)
             {
